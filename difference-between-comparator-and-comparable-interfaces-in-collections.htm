@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+.tag{
+color:white;
+background:gray;
+padding:10px 15px 10px 15px;
+margin-left:5px;
+border-radius:9px;
+cursor:pointer;
+}
+</style>
+<link rel="SHORTCUT ICON" href="https://www.javatpoint.com/images/logo/icon.png" />
+<link rel="stylesheet" type="text/css" href="https://www.javatpoint.com/link.css" />
+<script src="jquery-latest.js"></script>
+<script type="text/javascript" src="jquery.validate.js"></script>
+
+<script type="text/javascript">
+ var a = Math.ceil(Math.random() * 10);
+    var b = Math.ceil(Math.random() * 10);       
+    var c = a + b
+    function DrawBotBoot()
+    {
+        document.write("&nbsp;&nbsp;&nbsp;&nbsp;<span style='background-color:khaki;color:red;font-weight:bold;padding:3px 3px 3px 3px;'> "+ a + " + " + b +" = </span>");
+        document.write("<input id='BotBootInput' type='text' maxlength='2' size='2'/>");
+    }    
+    function ValidBotBoot(){
+        var d = document.getElementById('BotBootInput').value;
+        if (d == c) return true; 
+	else       
+        return false;
+        
+    }
+function check(){
+var isvalid=ValidBotBoot();
+if(isvalid==true){
+document.getElementById("captchamsg").innerHTML="<img src='https://www.javatpoint.com/images/logo/icon_bullet.png'/>";
+ return true;
+}
+else{
+document.getElementById("captchamsg").innerText="Please enter correct result";
+return false;
+}
+
+}
+
+function reply(a){
+ popupWindow = window.open('/reply.jsp?id='+a,'name','width=500,height=400');
+    popupWindow.focus();
+
+}
+</script>
+<script>
+
+var request;
+
+function qup(a,b){
+var qid=a;
+var type=b;
+var attempt;
+var qpts;
+var user;
+var email=document.getElementById("puser").value;
+
+if(email=="null" || email=="" || email==" " || email==null){
+alert("Please Login first to rate any Question and answer.");
+}
+else{
+
+
+
+if(type=="que"){
+user=document.getElementById("quser").value;
+}
+else{
+user=document.getElementById("auser"+qid).value;
+}
+if(email==user)
+{
+alert("You can't rate any question and answer posted by you!");
+}
+else{
+
+if(type=="que"){
+attempt=document.getElementById("attempt").value;
+attempt++;
+
+qpts=document.getElementById("qpts").value;
+qpts++;
+}
+else{
+attempt=document.getElementById("attempt"+qid).value;
+attempt++;
+
+qpts=document.getElementById("qpts"+qid).value;
+qpts++;
+}
+
+
+if(attempt>5){
+alert("Sorry! You can't rate it Any more");
+}
+else{
+if(type=="que"){
+document.getElementById("att").innerHTML="<input type='hidden' value='"+attempt+"' id='attempt' />";
+
+document.getElementById("qpoints").innerHTML="<span style='font-size:35px;color:red;'><B><input type='hidden' value='"+qpts+"' id='qpts' />"+qpts+"</B></span>";
+}
+else{
+document.getElementById("att"+qid).innerHTML="<input type='hidden' value='"+attempt+"' id='attempt"+qid+"' />";
+
+document.getElementById("qpoints"+qid).innerHTML="<span style='font-size:35px;color:red;'><B><input type='hidden' value='"+qpts+"' id='qpts"+qid+"' />"+qpts+"</B></span>";
+
+}
+
+
+var url="point.jsp?id="+qid+"&email="+email+"&do=up&type="+type+"&attempt="+attempt+"&qpts="+qpts;
+
+if(window.XMLHttpRequest){
+request=new XMLHttpRequest();
+}
+else if(window.ActiveXObject){
+request=new ActiveXObject("Microsoft.XMLHTTP");
+}
+try
+{
+request.onreadystatechange=getInfo;
+request.open("GET",url,true);
+request.send();
+}
+catch(e){alert("Unable to connect to server");}
+
+
+function getInfo(){
+if(request.readyState==4){
+var val=request.responseText;
+//alert("question point posted");
+}
+}
+
+
+}
+}
+}
+}
+function qdown(a,b){
+
+var qid=a;
+var type=b;
+var attempt;
+var qpts;
+var user;
+var email=document.getElementById("puser").value;
+
+
+if(email=="null" || email=="" || email==" " || email==null){
+alert("Please Login first to rate any Question and answer.");
+}
+else{
+
+
+if(type=="que"){
+user=document.getElementById("quser").value;
+}
+else{
+user=document.getElementById("auser"+qid).value;
+}
+if(email==user)
+{
+alert("You can't rate any question and answer posted by you!");
+}
+else{
+
+
+if(type=="que"){
+attempt=document.getElementById("attempt").value;
+attempt++;
+
+qpts=document.getElementById("qpts").value;
+qpts--;
+}
+else{
+attempt=document.getElementById("attempt"+qid).value;
+attempt++;
+
+qpts=document.getElementById("qpts"+qid).value;
+qpts--;
+}
+
+
+if(attempt>5){
+alert("Sorry! You can't rate it Any more");
+}
+else{
+if(type=="que"){
+document.getElementById("att").innerHTML="<input type='hidden' value='"+attempt+"' id='attempt' />";
+
+document.getElementById("qpoints").innerHTML="<span style='font-size:35px;color:red;'><B><input type='hidden' value='"+qpts+"' id='qpts' />"+qpts+"</B></span>";
+}
+else{
+document.getElementById("att"+qid).innerHTML="<input type='hidden' value='"+attempt+"' id='attempt"+qid+"' />";
+
+document.getElementById("qpoints"+qid).innerHTML="<span style='font-size:35px;color:red;'><B><input type='hidden' value='"+qpts+"' id='qpts"+qid+"' />"+qpts+"</B></span>";
+
+}
+
+var url="point.jsp?id="+qid+"&email="+email+"&do=down&type="+type+"&attempt="+attempt+"&qpts="+qpts;
+
+if(window.XMLHttpRequest){
+request=new XMLHttpRequest();
+}
+else if(window.ActiveXObject){
+request=new ActiveXObject("Microsoft.XMLHTTP");
+}
+try
+{
+request.onreadystatechange=getInfo;
+request.open("GET",url,true);
+request.send();
+}
+catch(e){alert("Unable to connect to server");}
+
+
+}
+}
+}
+}
+function todo(a,b)
+{
+var name=a;
+var value=b;
+var yes=document.getElementById(name+"yess").value;
+var no=document.getElementById(name+"nos").value;
+if(value=="yes"){
+yes++;
+document.getElementById(name).innerHTML="<font style='color:green'>"+yes+"Yes</font>&nbsp;&nbsp;<font style='color:red'>"+no+"No</font>";
+}
+if(value=="no"){
+no++;
+document.getElementById(name).innerHTML="<font style='color:green'>"+yes+"Yes</font>&nbsp;&nbsp;<font style='color:red'>"+no+"No</font>";
+}
+ var url="vote.jsp?name="+name+"&value="+value;
+
+if(window.XMLHttpRequest){
+request=new XMLHttpRequest();
+}
+else if(window.ActiveXObject){
+request=new ActiveXObject("Microsoft.XMLHTTP");
+}
+try
+{
+request.onreadystatechange=getInfo;
+request.open("GET",url,true);
+request.send();
+}
+catch(e){alert("Unable to connect to server");}
+}
+
+function getInfo(){
+if(request.readyState==4){
+var val=request.responseText;
+
+}
+}
+
+function gotag(a){
+window.location.href="https://www.javatpoint.com/tag.jsp?val="+a;
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+<title>Difference between Comparator and comparable interfaces in collections? | 6353 - javatpoint.com</title>
+<meta name="description" content="6353,Difference between Comparator and comparable interfaces in collections? tutorial, question, answer, example, Java, JavaScript, SQL, C, Android, Interview, Quiz, ajax, html"/>
+<link rel="canonical" href="https://www.javatpoint.com/q/6353/difference-between-comparator-and-comparable-interfaces-in-collections?" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">						
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta name="twitter:title" property="og:title" itemprop="title name" content="Difference between Comparator and comparable interfaces in collections?" />
+<meta name="twitter:description" property="og:description" itemprop="description" content="Difference between Comparator and comparable interfaces in collections? tutorial, question, answer, example, Java, JavaScript, SQL, C, Android, Interview, Quiz, ajax, html" />
+<meta property="og:url" content="https://www.javatpoint.com/q/6353/difference-between-comparator-and-comparable-interfaces-in-collections" />
+<meta property="og:site_name" content="www.javatpoint.com" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:site" content="@pagejavatpoint"/>
+<meta name="twitter:domain" content="www.javatpoint.com"/>
+<meta name="twitter:creator" content="@pagejavatpoint"/>
+ 
+<style type="text/css">
+fieldset{border-color:pink;}
+* { font-size: 100%; }
+label { float: left; }
+label.error { float: none;font-style:italic; color: red; padding-left: .5em; vertical-align: top; }
+p { clear: both; }
+.submit { margin-left: 12em; }
+em { font-weight: bold; padding-right: 1em; vertical-align: top; }
+</style>
+ 
+ <script>
+  $(document).ready(function(){
+    $("#commentForm").validate();
+  });
+  </script>
+  
+</head>
+<body>
+
+
+
+<div id="page" style="margin:-9px;background-color:#f5f5f4;">
+
+ <div id="container">
+ <div class="header">
+ <table style="width:100%;margin-bottom:5px">
+    <tr>
+        <td>
+            <div style="clear:both;float:left;width:230px;margin-top:15px;margin-left:20px">
+                <a href="https://www.javatpoint.com"><img src="https://www.javatpoint.com/images/logo/jtp_logo.png" alt="Javatpoint Logo" /></a>
+            </div>
+            <div style="float:left;width:60%;">
+<script>
+  (function() {
+    var cx = '005383125436438536544:y1edweedxwi';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+                
+            </div>
+            
+        </td>
+    </tr>
+        <!--<tr>
+        <td>
+            <div id="headerlink" style="padding:0px;margin:0px"><span style="margin-right:20px;width:45px"></span><span style="float:right;margin-right:5px;width:45%"> </span>
+                
+            </div>
+        </td>
+    </tr>-->
+
+</table>
+ </div>
+ <div class="headermobile">
+<div  style="margin:0px;padding:0px;text-align:left;margin-left:10px;">
+<a  href="https://www.javatpoint.com" style="text-decoration:none;"><span style="color:orange;font-size:25px;font-weight:bold;">Java</span><span style="color:#666600;font-size:35px;font-weight:bold;">T</span><span style="color:red;font-size:25px;font-weight:bold;">point</span></a>
+</div>
+<div style="margin:0px;padding:0px;clear:both">
+<form class="navbar-search-m" method="get" action="https://www.google.com/search" target="_blank"> 
+<input type="text" name="q" class="search-query span2-m" placeholder="Search on javatpoint..."  title="Search on Javatpoint"/>
+<input type="hidden" name="sitesearch" value="www.javatpoint.com"/>
+</form>
+</div>
+</div>
+
+<div id="link" style="clear:both">
+<div id="smoothmenu1" class="ddsmoothmenu">
+<ul>
+<li><a href="http://www.javatpoint.com">Home</a></li>
+<li><a href="http://www.javatpoint.com/java-tutorial">Core Java</a></li>
+<li><a href="http://www.javatpoint.com/servlet-tutorial">Servlet</a></li>
+<li><a href="http://www.javatpoint.com/jsp-tutorial">JSP</a></li>
+<li><a href="http://www.javatpoint.com/struts-2-tutorial">Struts2</a></li>
+
+<li><a href="http://www.javatpoint.com/java-mail-api-tutorial">Mail API</a></li>
+<li><a href="http://www.javatpoint.com/hibernate-tutorial">Hibernate</a></li>
+<li><a href="http://www.javatpoint.com/spring-tutorial">Spring</a></li>
+<li><a href="http://www.javatpoint.com/android-tutorial" >Android</a></li>
+<li><a href="http://www.javatpoint.com/design-patterns-in-java">Design Pattern</a></li>
+<li><a href="http://www.javatpoint.com/examaccess">Quiz</a></li>
+
+<li><a href="http://www.javatpoint.com/free-java-projects">Projects</a></li>
+<li><a href="http://www.javatpoint.com/corejava-interview-questions">Interview Q</a></li>
+<li><a href="http://www.javatpoint.com/comment.jsp">Comment</a></li>
+<li><a href="http://www.javatpoint.com/forum"  class="selected">Forum</a></li>
+</ul>
+<br style="clear: left" />
+</div>
+
+</div>
+
+
+<span id="right" style="width:15%;float:right;margin-top:10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-4699858549023382";
+/* right */
+google_ad_slot = "9253575428";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</span>
+
+<div class="onlycontent" style="margin-left:10px;width:80%;float:left;">
+
+<div style="margin-left:20px">
+
+<br/>
+</div>
+ 
+<!-- add body content -->
+<div id="bottomnext">
+<table style="float:right;">
+<tr><td><a class="next" href="https://www.javatpoint.com/forum">View All Questions</a> </td><td><a class="next" href="https://www.javatpoint.com/asknewquestion.jsp">Ask New Question</a></td></tr>
+</table>
+</div>
+<h1 id='h1'>Difference between Comparator and comparable interfaces in collections?</h1><input type='hidden' value='null' id='puser'/><span id='att'><input type='hidden' value='0' id='attempt' /></span><fieldset><table  style='width:100%;table-layout:fixed'><input type='hidden' id='quser' value='vivek.chowdary89@gmail.com'/><tr><td style='width:100%'><strong>By: </strong><a href='https://www.javatpoint.com/viewprofile.jsp?email=13318'><font color='red'>vivek.chowdary89@gmail.com</font></a> <strong>On:</strong> Sat Nov 01 04:07:02 IST 2014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a title='Question Reputation'><img src='https://www.javatpoint.com/images/imagecreated/qp.jpg' width='10' height='10' /><font style='color:navy; font-weight:bold; font-size:20px '>0</a></font>&nbsp;<a title='Answer Reputation'><img src='https://www.javatpoint.com/images/imagecreated/ap.jpg' width='10' height='10' /><font style='color:green; font-weight:bold; font-size:20px '>0</a></font>&nbsp;<a title='Quiz Belt-Series Points'><img src='https://www.javatpoint.com/images/imagecreated/qup.jpg' width='10' height='10' /><font style='color:red; font-weight:bold; font-size:20px '>0</a></font></td><td><span style='float:right'>&nbsp; <a title='Total Reputation' ><font style='font-size:22px;'><b>0</b></font></a><a href='https://www.javatpoint.com/viewprofile.jsp?email=13318'><img height='50' width='50' src='https://www.javatpoint.com/userimages/blank.jpg' /></a></span></td></tr><tr><td></td></tr><tr><td>You just have provided the examples there but I couldn't find the difference between them.</td><td valign='top'><span style='float:right;padding-top:0px' ><a href='#' id='que' onclick='qdown(this.name,this.id)' name='6353'><img height='33' width='33' src='https://www.javatpoint.com/images/imagecreated/up.jpg'/></a><span id='qpoints' ><span style='font-size:35px;color:red;'><B><input type='hidden' value='0' id='qpts' />0</B></span></span><a href='#' id='que' onclick='qup(this.name,this.id)' name='6353'><img height='33' width='33' src='https://www.javatpoint.com/images/imagecreated/down.jpg'/></a></span></td></tr></table></fieldset>
+
+			<br/>
+			<div id="answers">
+			<input type='hidden' id='auser68378' value='patelajaykumar123@gmail.com'/><span id='att68378'><input type='hidden' value='0' id='attempt68378' /></span><table style='width:100%;table-layout:fixed;' class='codeblockpostanswer'><tr><td style='width:100%'> Difference between Comparator and Comparable in java<br/><br/>One of the common interview question is "What are differences between Comparator and Comparable". or "How will you sort collection of employee objects by its id or name".For that we can use two interfaces.i.e. Comparator and Comparable.Before we actually see differences,let me give you brief introduction of both.<br/>Comparable interface:<br/>Class whose objects to be sorted must implement this interface.In this,we have to implement compareTo(Object) method.<br/>For example:<br/>view plainprint?<br/><br/>    public class Country implements Comparable&lt;Country&gt;{  <br/>           @Override  <br/>        public int compareTo(Country country) {  <br/>            return (this.countryId &lt; country.countryId ) ? -1: (this.countryId &gt; country.countryId ) ? 1:0 ;  <br/>    }}   <br/><br/>If any class implements comparable inteface then collection of that object can be sorted automatically using Collection.sort() or Arrays.sort().Object will be sort on the basis of compareTo method in that class.<br/>Objects which implement Comparable in java can be used as keys in a SortedMap like TreeMap or SortedSet like TreeSet without implementing any other interface.<br/>Comparator interface:<br/>Class whose objects to be sorted do not need to implement this interface.Some third class can implement this interface to sort.e.g.CountrySortByIdComparator class can implement Comparator interface to sort collection of country object by id. For example:<br/>view plainprint?<br/><br/>    public class CountrySortByIdComparator implements Comparator&lt;Country&gt;{  <br/>      <br/>        @Override  <br/>        public int compare(Country country1, Country country2) {  <br/>              <br/>            return (country1.getCountryId() &lt; country2.getCountryId() ) ? -1: (country1.getCountryId() &gt; country2.getCountryId() ) ? 1:0 ;  <br/>        }  <br/>      <br/>    }  <br/><br/>Using Comparator interface,we can write different sorting based on different attributes of objects to be sorted.You can use anonymous comparator to compare at particular line of code. For example:<br/>view plainprint?<br/><br/>             Country indiaCountry=new Country(1, "India");  <br/>             Country chinaCountry=new Country(4, "China");  <br/>             Country nepalCountry=new Country(3, "Nepal");  <br/>             Country bhutanCountry=new Country(2, "Bhutan");  <br/>              <br/>             List&lt;Country&gt; listOfCountries = new ArrayList&lt;Country&gt;();  <br/>             listOfCountries.add(indiaCountry);  <br/>             listOfCountries.add(chinaCountry);  <br/>             listOfCountries.add(nepalCountry);  <br/>             listOfCountries.add(bhutanCountry);   <br/>      <br/>     //Sort by countryName  <br/>      <br/>                Collections.sort(listOfCountries,new Comparator&lt;Country&gt;() {  <br/>      <br/>                    @Override  <br/>                    public int compare(Country o1, Country o2) {  <br/>      <br/>                        return o1.getCountryName().compareTo(o2.getCountryName());  <br/>                    }  <br/>                });  </td><td valign='top' style='float:right;width:100%;'><span style='float:right;padding-right:5px'><a id='ans' onclick='qdown(this.name,this.id)' name='68378'><img height='33' width='33' src='https://www.javatpoint.com/images/imagecreated/up.jpg'/></a><span id='qpoints68378'><span style='font-size:35px;color:red;'><input type='hidden' value='0' id='qpts68378' /><B>0</B></span></span><a id='ans' onclick='qup(this.name,this.id)' name='68378'><img height='33' width='33' src='https://www.javatpoint.com/images/imagecreated/down.jpg'/></a></span></td></tr><tr><td><hr/></td></tr><tr><td><strong>By: </strong><a href='https://www.javatpoint.com/viewprofile.jsp?email=13323'><span style='color='red'>patelajaykumar123@gmail.com</font></a><strong>  On:  </strong> Sat Nov 01 12:32:46 IST 2014&nbsp;<a title='Question Reputation'><img src='https://www.javatpoint.com/images/imagecreated/qp.jpg' width='10' height='10' /><font style='color:navy; font-weight:bold; font-size:20px '>0</a></font>&nbsp;<a title='Answer Reputation'><img src='https://www.javatpoint.com/images/imagecreated/ap.jpg' width='10' height='10' /><font style='color:green; font-weight:bold; font-size:20px '>0</a></font>&nbsp;<a title='Quiz Belt-Series Points'><img src='https://www.javatpoint.com/images/imagecreated/qup.jpg' width='10' height='10' /><font style='color:red; font-weight:bold; font-size:20px '>0</a></font><td><span style='float:right'>&nbsp;<a title='Total Reputation' ><font style='font-size:22px;'><b>0</b></font></a><a href='https://www.javatpoint.com/viewprofile.jsp?email=13323'><img height='50' width='50' src='https://www.javatpoint.com/userimages/blank.jpg' /></a></span></td></tr>&nbsp;<tr><td><strong>Are You Satisfied :</strong><span                    id='68378'><input type='radio' id='radio' name='68378' value='yes' onclick='todo(this.name,this.value)'/><font style='color:green'><input type='hidden' value='0' id='68378yess'/>0Yes</font><input type='radio' id='radio' name='68378' value='no' onclick='todo(this.name,this.value)'/><font style='color:red'><input type='hidden' value='0' id='68378nos'/>0No</span></font></td></tr></table>
+</div>
+<br><br>
+<fieldset>
+<legend><b>PLEASE REPLY</b></legend>
+
+<p>Please login first to post reply. <b><a href="https://www.javatpoint.com/login.jsp">Login please!</a></b>
+
+
+
+
+
+<form name="form" action="https://www.javatpoint.com/postanswer.jsp" method="post" id="commentForm">
+
+
+   <input type="hidden" name="qid" value="6353"/>
+   <input type="hidden" name="qname" value="Difference between Comparator and comparable interfaces in collections?"/>
+
+ <p>
+     <label for="cdesc"><b>Answer:</b></label>
+      </p>
+       <p>
+    <textarea id="cdesc" class="required" rows="10"  name="answer" style="width: 100%;background-color:#F8F8F8" ></textarea> 
+   </p>
+    
+<p>
+     <label for="captcha"><b>Captcha Verification:</b></label>
+<br>
+<input type="hidden" name="hidden" value="sonoo"/>
+<script type="text/javascript">DrawBotBoot()</script>
+
+ <input class="subbutton" type="submit" style="float:right;margin-right:40%;" id="testclick3" onclick="return check();s=form.answer.value; s=s.replace(/&amp;/g,'&amp;amp;');s=s.replace(/&lt;/g,'&amp;lt;');s=s.replace(/&gt;/g,'&amp;gt;');s=s.replace(/\n/g,'&lt;br /&gt;\n');s=s.replace(/\r/g,'');form.answer.value = s;"/>
+
+<br/>
+<span style="color:red;font-weight:bold;" id="captchamsg"></span>
+
+  </p>
+</form>
+
+</fieldset>
+
+</div>
+<div id="footer" style="clear:both;width:100%">
+
+
+<div style="margin-left:20px;padding-top:10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-4699858549023382";
+/* header */
+google_ad_slot = "1219987637";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<!--<div style="width:100%;float:center;margin-top:-20px;color:white;background-image: linear-gradient(145deg,#90715c,#523b1f);line-height:28px;"> <h2 style="padding:60px 0px 0px 20px">Summer Training</h2> <p style="padding:0px 20px 60px 20px">JavaTpoint offers <strong>Summer Internship Training</strong> on Java, PHP, .Net, Hadoop, Data Analytics, R Programming, SAP, Android, Python, Oracle, Seleninum, Linux, C++ and many more technologies in Delhi/NCR, India. For more visit <a style="color:white" href="http://training.javatpoint.com"><img src="images/linkglobe12.png" alt="javatpoint training"/>training.javatpoint.com</a> <br>Course Fee: &#8377; 6000 Only<br>Duration: 6 Week </p></div>--><div style="width:100%;margin-top:10px;color:white;background-image: linear-gradient(145deg,#52a2fc,#480fcc);line-height:28px;"> <h2 style="padding:60px 0px 0px 20px">Javatpoint Services</h2> <p style="padding:0px 20px 0px 20px">JavaTpoint offers too many high quality services. Mail us on hr@javatpoint.com, to get more information about given services. </p><ul class="points"> <li>Website Designing</li><li>Website Development</li><li>Java Development</li><li>PHP Development</li><li>WordPress</li><li>Graphic Designing</li><li>Logo</li><li>Digital Marketing</li><li>On Page and Off Page SEO</li><li>PPC</li><li>Content Development</li><li>Corporate Training</li><li>Classroom and Online Training</li><li>Data Entry</li></ul> <p style="padding-bottom:60px"></p></div><div style="width:100%;margin-top:-20px;color:white;background-image: linear-gradient(145deg,#dc8140,#b16b15);line-height:28px;"> <h2 style="padding:60px 0px 0px 20px">Training For College Campus</h2> <p style="padding:0px 20px 60px 20px">JavaTpoint offers college campus training on Core Java, Advance Java, .Net, Android, Hadoop, PHP, Web Technology and Python. Please mail your requirement at hr@javatpoint.com. <br>Duration: 1 week to 2 week<br></p></div><!--<div class="homebox2"><h2>Our Initiatives</h2><marquee behavior="alternate"><a rel="nofollow" href="https://www.hindi100.com"><div class="box2"><img class="box2img" src="https://www.hindi100.com/resources/images/javatpoint.png" alt="javatpoint"/><p>Hindi100</p></div></a><a rel="nofollow" href="https://www.lyricsia.com"><div class="box2"><img class="box2img" src="https://www.hindi100.com/resources/images/lyrics.png" alt="lyrics"/><p>Lyricsia</p></div></a><a rel="nofollow" href="http://www.hindi-typing.com"><div class="box2"><img class="box2img" src="https://www.hindi100.com/resources/images/hindi-typing.png" alt="hindi-typing"/><p>Hindi-Typing</p></div></a></marquee></div>--><script>var _gaq=_gaq || []; _gaq.push(['_setAccount', 'UA-24880427-1']); _gaq.push(['_trackPageview']); (function(){var ga=document.createElement('script'); ga.type='text/javascript'; ga.async=true; ga.src=('https:'==document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s=document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();</script><div style="margin-top:5px;text-align:center"> <sup style="font:16px arial;">Like/Subscribe us for latest updates or newsletter </sup> <a target="_blank" rel="nofollow" href="https://feeds.feedburner.com/javatpointsonoo"><img src="https://www.javatpoint.com/images/social/rss1.png" alt="RSS Feed"/></a> <a target="_blank"  rel="nofollow" href="https://feedburner.google.com/fb/a/mailverify?uri=javatpointsonoo"><img src="https://www.javatpoint.com/images/social/mail1.png" alt="Subscribe to Get Email Alerts"/></a> <a  rel="nofollow" target="_blank" href="https://www.facebook.com/javatpoint"><img src="https://www.javatpoint.com/images/social/facebook1.jpg" alt="Facebook Page"/></a> <a target="_blank" rel="nofollow" href="https://plus.google.com/u/0/+javatpoint"><img src="https://www.javatpoint.com/images/social/google1.png" alt="Google Page"/></a> <a target="_blank" rel="nofollow" href="https://twitter.com/pagejavatpoint"><img src="https://www.javatpoint.com/images/social/twitter1.png" alt="Twitter Page"/></a> <a target="_blank" rel="nofollow" href="https://www.youtube.com/channel/UCUnYvQVCrJoFWZhKK3O2xLg"><img src="https://www.javatpoint.com/images/youtube32.png" alt="YouTube"/></a> <a target="_blank" rel="nofollow" href="https://javatpoint.blogspot.com"><img src="https://www.javatpoint.com/images/social/blog.png" alt="Blog Page"/></a> </div><footer class="footer1"><div class="column4"><h3>Learn Tutorials</h3><a href="https://www.javatpoint.com/java-tutorial">Learn Java Tutorial</a><a href="https://www.javatpoint.com/c-programming-language-tutorial">Learn C Tutorial</a><a href="https://www.javatpoint.com/cpp-tutorial">Learn C++ Tutorial</a><a href="https://www.javatpoint.com/c-sharp-tutorial">Learn C# Tutorial</a><a href="https://www.javatpoint.com/php-tutorial">Learn PHP Tutorial</a><a href="https://www.javatpoint.com/html-tutorial">Learn HTML Tutorial</a><a href="https://www.javatpoint.com/css-tutorial">Learn CSS Tutorial</a><a href="https://www.javatpoint.com/javascript-tutorial">Learn JavaScript Tutorial</a><a href="https://www.javatpoint.com/jquery-tutorial">Learn jQuery Tutorial</a><a href="https://www.javatpoint.com/spring-tutorial">Learn Spring Tutorial</a></div><div class="column4"><h3>Our Websites</h3><a href="https://www.javatpoint.com">Javatpoint.com</a><a rel="dofollow" target="_blank" href="https://www.hindi100.com">Hindi100.com</a><a rel="dofollow" target="_blank" href="https://www.lyricsia.com">Lyricsia.com</a><a rel="nofollow" target="_blank" href="https://www.quoteperson.com">Quoteperson.com</a><a rel="nofollow" target="_blank" href="http://www.hindi-typing.com">Hindi-typing.com</a><a rel="nofollow" target="_blank" href="http://www.shayaree.com">Shayaree.com</a><a rel="nofollow" target="_blank" href="https://www.wordcountee.com">Wordcountee.com</a><a rel="nofollow" target="_blank" href="https://www.charactercountee.com">Charactercountee.com</a><a rel="nofollow" target="_blank" href="https://www.jobandplacement.com">Jobandplacement.com</a></div><div class="column4"><h3>Our Services</h3><p>Website Development</p><p>Android Development</p><p>Website Designing</p><p>Digital Marketing</p><p>Summer Training</p><p>Industrial Training</p><p>College Campus Training</p></div><div class="column4"><h3>Contact</h3><p>Address: G-13, 2nd Floor, Sec-3</p><p>Noida, UP, 201301, India</p><p>Contact No: 0120-4256464, 9990449935</p><a href="https://www.javatpoint.com/contact-us">Contact Us</a> <a href="https://www.javatpoint.com/subscribe.jsp">Subscribe Us</a> <a href="https://www.javatpoint.com/privacy-policy">Privacy Policy</a><a href="https://www.javatpoint.com/sitemap.xml">Sitemap</a></div></footer><footer class="footer2"><p>&copy; Copyright 2011-2018 www.javatpoint.com. All rights reserved. <a rel="nofollow" target="_blank" href="https://www.sssit.org">Developed by SSS IT Pvt Ltd (JavaTpoint)</a> </p></footer>
+</div>
+
+</div>
+
+</body> 
+</html>
