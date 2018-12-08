@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    th, td, p, input {
+        font:14px Verdana;
+    }
+    table, th, td 
+    {
+        border: solid 1px #DDD;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: center;
+    }
+    th {
+        font-weight:bold;
+    }
+    </style>
+  </head>
+  <body>
+    <aside>
+      <div class="service">
+        <ul>
+          <li> <button onclick="createPersonTable()" id="personDetails">Person</button> </li>
+          <li> <button>Address</button> </li>
+        </ul>
+      </div>
+    </aside>
+    <p id="details"></p>
+    <div>
+      <span id="addPerson"></span>
+    </div>
+      <span id="personLabel"></span>
+    <div>
+      <span id="updatePerson"></span>
+    </div>
+    <script src="scripts/validation.js"></script>
+  </body>
+</html>
